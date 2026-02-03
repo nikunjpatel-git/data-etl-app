@@ -40,12 +40,16 @@ CLUSTER BY (date_hour)
 
 > **Note:** The `date_hour` column is included to ensure idempotency in the ETL process. This design allows each Airflow run to overwrite data corresponding to a specific hour, so that re-running a task for the same time period will safely update the relevant records without creating duplicates.
 
-### 3. Upload Python File to Databricks Workspace
-Upload your ETL script (e.g., `transform_customer_churn.py`) to Databricks:
-- Path: `dbfs:/Workspace/Users/<your-email>/transform_customer_churn.py`
+### 3. Upload Input Data and Python File to Databricks Workspace
+
+Download the input data from this: 
+[kaggle-dataset](https://www.kaggle.com/datasets/abdullah0a/telecom-customer-churn-insights-for-analysis) link
 
 Upload your data (e.g., `customer_churn_data.csv`) to Databricks:
 - Path: `dbfs:/Workspace/Users/<your-email>/customer_churn_data.csv`
+
+Upload your ETL script (e.g., `transform_customer_churn.py`) to Databricks:
+- Path: `dbfs:/Workspace/Users/<your-email>/transform_customer_churn.py`
 
 Accordingly update the databricks task config in `dags/sample_dag.py`
 Example Airflow Databricks operator config:
