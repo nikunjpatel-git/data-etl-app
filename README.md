@@ -44,6 +44,10 @@ CLUSTER BY (date_hour)
 Upload your ETL script (e.g., `transform_customer_churn.py`) to Databricks:
 - Path: `dbfs:/Workspace/Users/<your-email>/transform_customer_churn.py`
 
+Upload your data (e.g., `customer_churn_data.csv`) to Databricks:
+- Path: `dbfs:/Workspace/Users/<your-email>/customer_churn_data.csv`
+
+Accordingly update the databricks task config in `dags/sample_dag.py`
 Example Airflow Databricks operator config:
 ```json
 "spark_python_task": {
