@@ -104,6 +104,10 @@ docker-compose run airflow-webserver airflow users create --username admin --fir
 ### 11. Create Dashboards
 - Use `Databricks Dashboards` to visualize data from the Unity Catalog tables.
 
+Sample dashboard created:
+
+![alt text](images/databricks_sample_dashboard.png)
+
 ### 12. Restarting Containers
 If you restart containers, re-initialize Airflow DB:
 ```sh
