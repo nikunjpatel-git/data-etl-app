@@ -42,13 +42,15 @@ CLUSTER BY (date_hour)
 
 ### 3. Upload Input Data and Python File to Databricks Workspace
 
+> **Note:** The process of uploading input file to a file system accessible to databricks can be automated, where, as and when the new hour data is available from source, the data can be uploaded to hourly folders in `dbfs` or `s3`, which can then be read using Databricks compute.
+
 Download the input data from this: 
 [kaggle-dataset](https://www.kaggle.com/datasets/abdullah0a/telecom-customer-churn-insights-for-analysis) link
 
 Upload your data (e.g., `customer_churn_data.csv`) to Databricks:
 - Path: `dbfs:/Workspace/Users/<your-email>/customer_churn_data.csv`
 
-Upload your ETL script (e.g., `transform_customer_churn.py`) to Databricks:
+Upload your ETL script (e.g., `transform_customer_churn.py`) to Databricks (refer: `Etl_scripts/transform_customer_churn.py`):
 - Path: `dbfs:/Workspace/Users/<your-email>/transform_customer_churn.py`
 
 Accordingly update the databricks task config in `dags/sample_dag.py`
@@ -100,7 +102,7 @@ docker-compose run airflow-webserver airflow users create --username admin --fir
 - In the Airflow UI, unpause the DAG to start scheduling.
 
 ### 11. Create Dashboards
-- Use Databricks Dashboards to visualize data from the Unity Catalog tables.
+- Use `Databricks Dashboards` to visualize data from the Unity Catalog tables.
 
 ### 12. Restarting Containers
 If you restart containers, re-initialize Airflow DB:
