@@ -47,11 +47,17 @@ CLUSTER BY (date_hour)
 Download the input data from this: 
 [kaggle-dataset](https://www.kaggle.com/datasets/abdullah0a/telecom-customer-churn-insights-for-analysis) link
 
-Upload your data (e.g., `customer_churn_data.csv`) to Databricks:
-- Path: `dbfs:/Workspace/Users/<your-email>/customer_churn_data.csv`
+Upload your data (e.g., `customer_churn_data.csv`) to Databricks Volume and refer it in dag:
+- Path: `/Volumes/workspace/default/dbx_test_volume/customer_churn_data.csv`
 
 Upload your ETL script (e.g., `transform_customer_churn.py`) to Databricks (refer: `Etl_scripts/transform_customer_churn.py`):
 - Path: `dbfs:/Workspace/Users/<your-email>/transform_customer_churn.py`
+
+Create a whl file for your helper ETL folder:
+`python setup.py bdist_wheel`
+
+Upload your helper whl (e.g., `helper_utils-1.0.0-py3-none-any.whl`) to Databricks (refer: `Etl_scripts/helper_utils`):
+- Path: `dbfs:/Workspace/Users/<your-email>/helper_utils-1.0.0-py3-none-any.whl`
 
 Accordingly update the databricks task config in `dags/sample_dag.py`
 Example Airflow Databricks operator config:
@@ -59,11 +65,26 @@ Example Airflow Databricks operator config:
 "spark_python_task": {
 	"python_file": "dbfs:/Workspace/Users/<your-email>/transform_customer_churn.py",
 	"parameters": [
-		"/Workspace/Users/<your-email>/customer_churn_data.csv",
+		"/Volumes/workspace/default/dbx_test_volume/customer_churn_data.csv",
 		"{{ execution_date.strftime('%Y%m%d%H') }}"
 	]
 }
+
+"environments": [
+{
+	"environment_key": "default",
+	"spec": {
+		"environment_version": "4",
+		"dependencies": [
+			"/Workspace/Users/<your-email>/helper_utils-1.0.0-py3-none-any.whl"
+		]
+	}
+}
+]
 ```
+
+### 3.1. We can run the unittest cases:
+`python -m unittest tests.test_helper -v`
 
 ### 4. Configure Environment Variables
 - Copy `.env.example` to `.env` and update with your credentials.
