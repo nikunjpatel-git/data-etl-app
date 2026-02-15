@@ -30,7 +30,7 @@ with DAG(
                     "spark_python_task": {
                         "python_file": "dbfs:/Workspace/Users/npatel17da@gmail.com/transform_customer_churn.py",
                         "parameters": [
-                            "/Workspace/Users/npatel17da@gmail.com/customer_churn_data.csv",
+                            "/Volumes/workspace/default/dbx_test_volume/customer_churn_data.csv",
                             "{{ execution_date.strftime('%Y%m%d%H') }}" # using execution timestamp for idempotency
                         ]
                     },
@@ -41,7 +41,10 @@ with DAG(
                 {
                     "environment_key": "default",
                     "spec": {
-                        "environment_version": "4"
+                        "environment_version": "4",
+                        "dependencies": [
+                            "/Workspace/Users/npatel17da@gmail.com/helper_utils-1.0.0-py3-none-any.whl"
+                        ]
                     }
                 }
             ]
